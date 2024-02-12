@@ -1,0 +1,54 @@
+История команд в терминале Ubuntu
+-   Сохранить и выложить историю ваших терминальных команд в Ubuntu.
+
+petr@petr82:~/control-work$ history
+    1  clear
+    2  sudo apt install cowsay
+    3  cowsaq moo
+    4  cowsay moo
+    5  clear
+    6  ls
+    7  mkdir control-work
+    8  cd control-work/
+    9  sudo apt install tree
+   10  tree
+   11  clear
+   12  cat > Pets
+   13  nano Pets
+   14  cat Pets
+   15  rm Pets
+   16  tree
+   17  clear
+   18  cat > Pets
+   19  cat > 'Pack animals'
+   20  cat Pets 'Pack animals' > file
+   21  cat file
+   22  mv file 'Human Friends'
+   23  ls
+   24  mkdir human-friends
+   25  mv 'Human Friends' human-friends/
+   26  tree
+   27  sudo apt install mysql
+   28  sudo apt install mysql-server
+   29  wget https://dev.mysql.com/get/mysql-apt-config_0.8.12-1_all.deb
+   30  sudo apt install ./mysql-apt-config_0.8.12-1_all.deb
+   31  sudo apt update
+   32* sudo apt install -f mysql-client=5.7* mysql-community-server=5.7* mysql-server=8.0*
+   33  sudo apt install ./mysql-apt-config_0.8.12-1_all.deb
+   34  wget https://dev.mysql.com/get/mysql-apt-config_0.8.12-1_all.deb
+   35  sudo apt install ./mysql-apt-config_0.8.12-1_all.deb
+   36  sudo apt install -f mysql-client=8.0* mysql-community-server=8.0* mysql-server=8.0*
+   37  sudo apt install mysql-communiti-server
+   38  sudo apt install -f mysql-client=8.0* mysql-server=8.0*
+   39  sudo mysql_secure_installation
+   40  mysql --version
+   41  mysql
+   42  sudo mysql -u root -p
+   43  sudo ss -ntlp
+   44  story
+   45  history
+   46  sudo apt download lftp
+   47  sudo dpkg -i lftp_4.9.2-1build1_amd64.deb
+   48  sudo dpkg -r lftp
+   49  history
+petr@petr82:~/control-work$

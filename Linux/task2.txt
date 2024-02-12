@@ -1,0 +1,15 @@
+Работа с директориями в Linux
+-   Создать новую директорию и переместить туда файл "Human Friends".
+
+
+petr@petr82:~/control-work$ mkdir human-friends
+petr@petr82:~/control-work$ mv 'Human Friends' human-friends/
+petr@petr82:~/control-work$ tree
+.
+├── human-friends
+│   └── Human Friends
+├── Pack animals
+└── Pets
+
+1 directory, 3 files
+petr@petr82:~/control-work$
