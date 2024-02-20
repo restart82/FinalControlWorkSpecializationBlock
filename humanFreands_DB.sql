@@ -1,7 +1,8 @@
+DROP DATABASE IF EXISTS human_friends;
 CREATE DATABASE human_friends;
 USE human_friends;
 
-# 1. Создать таблицы, соответствующие иерархии из вашей диаграммы классов.
+# 1. Создать таблицы с иерархией из диаграммы в БД
 
 CREATE TABLE animals
 (
@@ -105,7 +106,7 @@ CREATE TABLE donkeys
     FOREIGN KEY (type_id) REFERENCES pack_animals (id)
 );
 
-# 2. Заполнить таблицы данными о животных, их командах и датами рождения.
+# 2. Заполнить низкоуровневые таблицы именами(животных), командами которые они выполняют и датами рождения
 
 INSERT INTO dogs
 	(animal_name, birthday, commands)
@@ -147,19 +148,24 @@ VALUES
 	('Eeyore', '2017-09-18', 'Walk, Carry Load, Bray'), 
 	('Burro', '2019-01-23', 'Walk, Bray, Kick');
 
-# 3. Удалить записи о верблюдах и объединить таблицы лошадей и ослов.
+# 3. Удалив из таблицы верблюдов, т.к. верблюдов решили перевезти в другой питомник на зимовку.
+#	 Объединить таблицы лошади, и ослы в одну таблицу.
 
 DELETE FROM camels
 WHERE type_id=2;
 
+DROP TABLE IF EXISTS hourses_and_donkeys;
+CREATE TABLE hourses_and_donkeys
 SELECT * FROM horses
 UNION
 SELECT * FROM donkeys;
 
-# 4. Создать новую таблицу для животных в возрасте от 1 до 3 лет и вычислить их возраст с точностью до месяца.
+# 4. Создать новую таблицу “молодые животные” в которую попадут все
+#	 животные старше 1 года, но младше 3 лет и в отдельном столбце с точностью
+#	 до месяца подсчитать возраст животных в новой таблице
 
 DROP TABLE IF EXISTS young_animals;
-CREATE TABLE young_animals
+CREATE TABLE young_animals AS
 SELECT animal_name, DATEDIFF(CURDATE(), birthday) / 365 AS age
 FROM
 (
@@ -175,9 +181,45 @@ FROM
     UNION
     SELECT * FROM donkeys
 ) AS LIST
+HAVING age < 3
 ORDER BY age;
 select * from young_animals;
 
-# 5. Объединить все созданные таблицы в одну, сохраняя информацию о принадлежности к исходным таблицам.
+# 5. Объединить все таблицы в одну, при этом сохраняя поля, указывающие на
+# 	 прошлую принадлежность к старым таблицам.
+SET @i = 0;
+DROP TABLE IF EXISTS all_animals;
+CREATE TABLE all_animals AS
+SELECT *
+FROM
+(
+	SELECT @i := @i + 1 num, subclass_name, animal_name, birthday, commands
+	FROM pets
+	LEFT JOIN
+	(
+		SELECT * FROM dogs
+		UNION
+		SELECT * FROM cats
+		UNION
+		SELECT * FROM hamsters
+	) AS all_pets
+	ON pets.id = all_pets.type_id
+	UNION
+	SELECT @i := @i + 1 num, subclass_name, animal_name, birthday, commands
+	FROM pack_animals
+	LEFT JOIN
+	(
+		SELECT * FROM horses
+		UNION
+		SELECT * FROM camels
+		UNION
+		SELECT * FROM donkeys
+	) AS all_pack_animals
+	ON pack_animals.id = all_pack_animals.type_id
+) AS LIST;
+
+SELECT * FROM all_animals;
+
+
 
 
