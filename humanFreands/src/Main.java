@@ -1,5 +1,4 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+
 /*
     * Создать класс с Инкапсуляцией методов и наследованием по диаграмме.
     * Написать программу, имитирующую работу реестра домашних животных.
@@ -18,9 +17,22 @@
       животного заполнены все поля.
 */
 
+import model.pets.Cat;
+import view.ConsoleUI;
+import view.View;
+
+import java.util.Date;
+
 public class Main {
     public static void main(String[] args) {
 
-        System.out.printf("Hello and welcome!\n");
+//        Cat cat1 = new Cat("Pussy", new Date());
+//        System.out.printf(String.valueOf(cat1));
+//        cat1.addCommand("Roll");
+//        System.out.printf(String.valueOf(cat1));
+
+        View view = new ConsoleUI();
+        view.start();
+
     }
 }
