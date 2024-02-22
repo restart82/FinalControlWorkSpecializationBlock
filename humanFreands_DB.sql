@@ -164,9 +164,29 @@ SELECT * FROM donkeys;
 #	 животные старше 1 года, но младше 3 лет и в отдельном столбце с точностью
 #	 до месяца подсчитать возраст животных в новой таблице
 
+DROP FUNCTION IF EXISTS getAge;
+DELIMITER $$
+CREATE FUNCTION getAge(birthday DATE)
+RETURNS VARCHAR(45) DETERMINISTIC
+BEGIN
+	-- var:
+    DECLARE months INT;
+    DECLARE years INT;
+    -- const:
+    DECLARE monthsInOneYear INT;
+    SET monthsInOneYear = 12;
+    
+    SET years = TIMESTAMPDIFF(YEAR, birthday, CURDATE());
+    SET months = TIMESTAMPDIFF(MONTH, birthday, CURDATE()) - years * monthsInOneYear;
+    
+    RETURN CONCAT(years, ' years, ', months, ' months');
+END; $$
+DELIMITER ;
+
+
 DROP TABLE IF EXISTS young_animals;
 CREATE TABLE young_animals AS
-SELECT animal_name, DATEDIFF(CURDATE(), birthday) / 365 AS age
+SELECT animal_name, getAge(birthday) AS age
 FROM
 (
 	SELECT * FROM dogs
@@ -181,7 +201,7 @@ FROM
     UNION
     SELECT * FROM donkeys
 ) AS LIST
-HAVING age < 3
+WHERE (TIMESTAMPDIFF(MONTH, birthday, CURDATE()) >= 12 AND TIMESTAMPDIFF(MONTH, birthday, CURDATE()) <= 3 * 12)
 ORDER BY age;
 select * from young_animals;
 
