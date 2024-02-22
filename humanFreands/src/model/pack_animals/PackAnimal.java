@@ -8,5 +8,6 @@ public abstract class PackAnimal extends Animal {
 
     public PackAnimal(String name, LocalDate birthdate) {
         super(name, birthdate);
+        animalCLass = "Вьючное животное";
     }
 }

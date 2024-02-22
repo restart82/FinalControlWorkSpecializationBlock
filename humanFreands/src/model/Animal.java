@@ -11,6 +11,8 @@ public abstract class Animal {
     protected String name;
     protected LocalDate birthday;
     protected List<String> commands;
+    protected String animalType;
+    protected String animalCLass;
 
     public Animal(String name, LocalDate birthday) {
         id = -1;
@@ -39,16 +41,35 @@ public abstract class Animal {
         this.id = id;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public String getAnimalType() {
+        return animalType;
+    }
+
+    public String getAnimalCLass() {
+        return animalCLass;
+    }
+
     @Override
     public String toString() {
-        return  id                  +
-                ". "                +
-                "\nИмя: "           +
-                name                +
-                "\nДата рождения: " +
-                birthday            +
-                "\nКоманды: "       +
-                commands            +
-                "\n";
+
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(id);
+        stringBuilder.append(". \tИмя:");
+        stringBuilder.append(name);
+        stringBuilder.append("\n\tДата рождения: ");
+        stringBuilder.append(birthday);
+        stringBuilder.append("\n\tКоманды: ");
+        stringBuilder.append(commands);
+        stringBuilder.append("\n\t");
+        stringBuilder.append(animalCLass);
+        stringBuilder.append(", ");
+        stringBuilder.append(animalType);
+        stringBuilder.append("\n");
+
+        return stringBuilder.toString();
     }
 }

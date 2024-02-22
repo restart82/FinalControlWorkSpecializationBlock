@@ -7,6 +7,8 @@ import java.util.Scanner;
 public class ConsoleUI implements View, ConsoleCommands{
 
     private static final String INPUT_ERROR = "Что то не то((";
+    private static final String ANIMAL_TYPES =
+            "1. Кошка\n2. Собака\n3. Хомяк\n4. Лошадь\n5. Осёл\n6. Верблюд\n";
     private Scanner scanner;
     private Presenter presenter;
     private boolean workFlag;
@@ -21,55 +23,56 @@ public class ConsoleUI implements View, ConsoleCommands{
     @Override
     public void addNewAnimal() {
 
-        System.out.println("Введите имя вашего питомца: ");
+        printAnswer("Введите имя питомца: ");
         String name = scanner.nextLine();
 
-        System.out.println("Введите дату рождения питомца: ");
+        printAnswer("Введите дату рождения питомца: ");
 
-        System.out.println("\tдень");
-//        String strBirthDay = scanner.nextLine();
-//        int birthDay;
-//        if (checkTextForInt(strBirthDay)) {
-//            birthDay = Integer.parseInt(strBirthDay);
-//        } else {
-//            birthDay = 0;
-//        }
+        printAnswer("\tдень");
         int birthDay = scanInt();
 
-        System.out.println("\tмесяц");
-        String strBirthMonth = scanner.nextLine();
-        int birthMonth;
-        if (checkTextForInt(strBirthMonth)) {
-            birthMonth = Integer.parseInt(strBirthMonth);
-        } else {
-            birthMonth = 0;
-        }
+        printAnswer("\tмесяц");
+        int birthMonth = scanInt();
 
-        System.out.println("\tгод");
-        String strBirthYear = scanner.nextLine();
-        int birthYear;
-        if (checkTextForInt(strBirthYear)) {
-            birthYear = Integer.parseInt(strBirthYear);
-        } else {
-            birthYear = 0;
-        }
+        printAnswer("\tгод");
+        int birthYear = scanInt();
 
-        if (checkYear(birthYear) && checkMonth(birthMonth) && checkDay(birthDay)) {
-            presenter.addCat(name, birthDay, birthMonth, birthYear);
+        printAnswer("К какому виду относится животное?");
+        printAnswer(ANIMAL_TYPES);
+        int animalType = scanInt();
+
+        if (    checkYear(birthYear)    &&
+                checkMonth(birthMonth)  &&
+                checkDay(birthDay)      &&
+                checkAnimalType(animalType)) {
+            presenter.addAnimal(name, birthDay, birthMonth, birthYear, animalType);
         }
 
         presenter.showInfo();
-
     }
 
     @Override
     public void showCommandList() {
 
+        printAnswer("Команды какого животного нужно посмотреть?");
+        presenter.showAnimalList();
+        int animalID = scanInt();
+        if (checkAnimalID(animalID)) {
+            presenter.showCommandList(animalID);
+        }
     }
 
     @Override
     public void teachAnimal() {
 
+        printAnswer("Какое животное нужно обучить?");
+        presenter.showAnimalList();
+        int animalID = scanInt();
+        printAnswer("Введите команду:");
+        String command = scanner.nextLine();
+        if (checkAnimalID(animalID)) {
+            presenter.addCommand(animalID, command);
+        }
     }
 
     @Override
@@ -151,11 +154,29 @@ public class ConsoleUI implements View, ConsoleCommands{
         }
     }
 
+    private boolean checkAnimalType(int animalType) {
+        if (animalType >= 1 && animalType <= 6) {
+            return true;
+        } else {
+            System.out.println("Нет такого вида!!");
+            return false;
+        }
+    }
+
+    private boolean checkAnimalID(int animalID) {
+        int size = presenter.getAnimalListSize();
+        if (animalID >= 1 && animalID <= size) {
+            return true;
+        } else {
+            System.out.println("Нет такого животного!!");
+            return false;
+        }
+    }
+
     private int scanInt() {
         String strNumber = scanner.nextLine();
         int result;
         if (!checkTextForInt(strNumber)) {
-            System.out.println(INPUT_ERROR);
             result = scanInt();
         } else {
             result = Integer.parseInt(strNumber);
