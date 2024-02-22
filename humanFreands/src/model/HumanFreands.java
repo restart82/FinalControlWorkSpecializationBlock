@@ -1,20 +1,32 @@
 package model;
 
+import model.exceptions.EmptyFieldException;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class HumanFreands {
 
     private List<Animal> animalList;
+    private Counter counter;
     private int count = 1;
 
     public HumanFreands() {
         animalList = new ArrayList<>();
+        counter = new Counter();
     }
 
-    public void addAnimal(Animal animal) {
-        animal.setId(count++);
-        animalList.add(animal);
+    public void addAnimal(Animal animal) throws EmptyFieldException{
+
+        if (animal.getName().isEmpty()) {
+            int cnt = counter.getCount();
+            counter.reset();
+            throw new EmptyFieldException("Пустое поле имени", cnt);
+        } else {
+            counter.increment();
+            animal.setId(count++);
+            animalList.add(animal);
+        }
     }
 
     public String getCommandList(int animalID) {

@@ -17,19 +17,11 @@
       животного заполнены все поля.
 */
 
-import model.pets.Cat;
 import view.ConsoleUI;
 import view.View;
 
-import java.util.Date;
-
 public class Main {
     public static void main(String[] args) {
-
-//        Cat cat1 = new Cat("Pussy", new Date());
-//        System.out.printf(String.valueOf(cat1));
-//        cat1.addCommand("Roll");
-//        System.out.printf(String.valueOf(cat1));
 
         View view = new ConsoleUI();
         view.start();
